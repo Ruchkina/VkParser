@@ -40,7 +40,7 @@ namespace Core
             foreach (string id in idUsers)
             {
                 UnvalidUserInfo = await extractor.FetchInfoUser(int.Parse(id));
-                if ((UnvalidUserInfo.bdate != null && UnvalidUserInfo.sex != 0 && !(Context.Follower.Any(s => s.Id == UnvalidUserInfo.id)) && GetBirthYear() != 0))
+                if (IsCorrectData())
                 {
                     follower = DoValidFollowers(UnvalidUserInfo);
                     await AddFollower(follower);
@@ -93,7 +93,10 @@ namespace Core
             Context.SaveChanges();
         }
 
-
+        public bool IsCorrectData()
+        {
+            return UnvalidUserInfo.bdate != null && UnvalidUserInfo.sex != 0 && !(Context.Follower.Any(s => s.Id == UnvalidUserInfo.id)) && GetBirthYear() != 0;
+        }
         public int GetBirthYear()
         {
             int year = 0;
