@@ -31,8 +31,11 @@ namespace Extractor1
                 string json = await followersOfGroup.Content.ReadAsStringAsync();
                 var obj = JToken.Parse(json);
                 var jsonArray = obj["response"]["items"].ToString();
+                string asd = Regex.Replace(jsonArray, @"[ \r\n\t]", "");
+                asd = asd.Replace("[", "");
+                asd = asd.Replace("]", "");
 
-                listOfNames = new List<string>(jsonArray.Split(','));
+                listOfNames = new List<string>(asd.Split(','));
             };
             return listOfNames;
 
@@ -48,6 +51,7 @@ namespace Extractor1
                 Thread.Sleep(300);
                 string json = await followersInfo.Content.ReadAsStringAsync();
                 JObject obj = JObject.Parse(json);
+                json = json.Replace("[]", "{}");
                 var jsonArray = JArray.Parse(obj["response"].ToString());
                 UserInfo = JsonConvert.DeserializeObject<Response>(jsonArray.First().ToString());
             }

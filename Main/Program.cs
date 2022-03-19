@@ -18,7 +18,7 @@ namespace Main
             optionsBuilder.UseNpgsql(connectionString);
             DatabaseContexts context = new DatabaseContexts(optionsBuilder.Options);
 
-            Repository response = new Repository(context, "Vneparlamentskie Partii", "civilplatform");
+            Facade response = new Facade(context, "Vneparlamentskie Partii", "bash_mag");
             try
             {
                 await response.GetParty();
